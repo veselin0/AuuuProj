@@ -1,15 +1,14 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow strict-local
- */
-
 import React from 'react';
-import {StyleSheet, View, Text, TextInput, Button} from 'react-native';
+import {StyleSheet, View, Text, TextInput, Button, Alert} from 'react-native';
 
 export default function App() {
+  const onAddPressHandler = () => {
+    Alert.alert('ADD button pressed');
+  };
+  const onDelPressHandler = () => {
+    Alert.alert('Del button pressed');
+  };
+
   return (
     <View style={styles.screen}>
       <View style={styles.subs1}>
@@ -19,10 +18,10 @@ export default function App() {
         </View>
         <View style={styles.btns}>
           <View style={styles.btn}>
-            <Button title="ADD" />
+            <Button title="ADD" onPress={onAddPressHandler} />
           </View>
           <View style={styles.btn}>
-            <Button title="DEL" color="red" />
+            <Button title="DEL" color="red" onPress={onDelPressHandler} />
           </View>
         </View>
       </View>
