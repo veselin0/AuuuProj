@@ -1,77 +1,72 @@
-import React from 'react';
-import {StyleSheet, View, Text, TextInput, Button, Alert} from 'react-native';
+import React, {useState} from 'react';
+import {
+  StyleSheet,
+  View,
+  Text,
+  TextInput,
+  Button,
+  FlatList,
+} from 'react-native';
 
 export default function App() {
-  const onAddPressHandler = () => {
-    Alert.alert('ADD button pressed');
+  const [text, setText] = useState('');
+  const [texts, setTexts] = useState([]);
+
+  const textInputHandler = (text) => {
+    setText(text);
   };
-  const onDelPressHandler = () => {
-    Alert.alert('Del button pressed');
+
+  const addTextsHandler = () => {
+    setTexts(() => [...texts, {id: Math.random().toString(), value: text}]);
   };
 
   return (
     <View style={styles.screen}>
-      <View style={styles.subs1}>
-        <Text>subs1</Text>
-        <View style={styles.teIn}>
-          <TextInput title="subs1" />
-        </View>
-        <View style={styles.btns}>
-          <View style={styles.btn}>
-            <Button title="ADD" onPress={onAddPressHandler} />
-          </View>
-          <View style={styles.btn}>
-            <Button title="DEL" color="red" onPress={onDelPressHandler} />
-          </View>
-        </View>
+      <View style={styles.inputContainer}>
+        <TextInput
+          style={styles.input}
+          placeholder="Type here!"
+          onChangeText={textInputHandler}
+          value={text}
+        />
       </View>
-      <View style={styles.subs2}>
-        <Text>subs2</Text>
-        <View style={styles.place} id="place">
-          <Text>Placeholder</Text>
-        </View>
+      <View style={styles.btn}>
+        <Button title="ADD" onPress={addTextsHandler} />
       </View>
+      <FlatList
+        keyExtractor={(item, index) => item.id}
+        data={texts}
+        renderItem={(itemData) => (
+          <View style={styles.listItem}>
+            <Text>{itemData.item.value}</Text>
+          </View>
+        )}
+      />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   screen: {
-    flex: 1,
-    backgroundColor: 'cadetblue',
-    padding: 10,
+    padding: 50,
   },
-  subs1: {
-    padding: 30,
-    flex: 1,
-    backgroundColor: 'darkorange',
-    margin: 10,
-  },
-  teIn: {
-    flex: 1,
-    backgroundColor: 'yellow',
-    height: 150,
-  },
-  btns: {
-    flexDirection: 'row',
-    backgroundColor: 'goldenrod',
-    height: 50,
+  inputContainer: {
     justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  input: {
+    padding: 10,
+    backgroundColor: 'yellow',
+    marginBottom: 10,
   },
   btn: {
-    margin: 10,
+    marginBottom: 10,
   },
-  subs2: {
-    padding: 30,
-    flex: 1,
-    backgroundColor: 'darkorchid',
-    margin: 10,
-  },
-  place: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    flex: 1,
-    backgroundColor: 'fuchsia',
-    height: 150,
+  listItem: {
+    padding: 10,
+    backgroundColor: 'pink',
+    borderColor: 'violet',
+    borderWidth: 3,
+    marginVertical: 5,
   },
 });
